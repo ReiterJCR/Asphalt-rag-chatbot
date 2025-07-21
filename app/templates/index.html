@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Asphalt Analytics Chat</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <a href="/info">Info</a>
+    </div>
+    <h1>Asphalt Analytics</h1>
+
+    <div id="chat-box">
+    {% for message in messages %}
+        <div class="message {{ message.role }}">
+        <strong>{{ message.role.capitalize() }}:</strong> {{ message.text }}
+        </div>
+    {% endfor %}
+    </div>
+
+    <form id="chat-form">
+    <input type="text" id="message-input" placeholder="Ask a question..." required>
+    <button type="submit" id="send-btn" >Send</button>
+    </form>
+</body>
+</html>
+
+<script>
+  const form = document.getElementById("chat-form");
+  const input = document.getElementById("message-input");
+  const chatBox = document.getElementById("chat-box");
+  const sendBtn = document.getElementById("send-btn");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const message = input.value.trim();
+    if (!message) return;
+
+    // Disable UI
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Sending...";
+    sendBtn.color = "#ccc";
+    input.disabled = true;
+
+    // Create user message div
+    const userMsg = document.createElement("div");
+    userMsg.className = "message user";
+    userMsg.innerHTML = `<strong>You:</strong> ${message}`;
+    chatBox.appendChild(userMsg);
+
+    // Create bot placeholder message
+    const botMsg = document.createElement("div");
+    botMsg.className = "message bot";
+    const typingSpan = document.createElement("span");
+    typingSpan.id = "typing";
+    typingSpan.textContent = "Thinking";
+    botMsg.innerHTML = `<strong>Bot:</strong> `;
+    botMsg.appendChild(typingSpan);
+    chatBox.appendChild(botMsg);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Animate the typing dots
+    let dotCount = 0;
+    const dotInterval = setInterval(() => {
+      dotCount = (dotCount + 1) % 4;
+      typingSpan.textContent = "Thinking" + ".".repeat(dotCount);
+    }, 400);
+
+    // Send to backend
+    try {
+      const res = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: message })
+      });
+
+      const data = await res.json();
+      clearInterval(dotInterval);
+      typingSpan.textContent = data.response;
+    } catch (err) {
+      clearInterval(dotInterval);
+      typingSpan.textContent = "⚠️ Error getting response.";
+    } finally {
+      input.value = "";
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Send";
+      sendBtn.color = "#2d6cdf";
+      input.disabled = false;
+      input.focus();
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  });
+</script>

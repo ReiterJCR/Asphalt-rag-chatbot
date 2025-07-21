@@ -1,0 +1,61 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f2f4f7;
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+header {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+h1 {
+  color: #333;
+  text-align: center;
+}
+
+#chat-box {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  min-height: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.message {
+  margin: 0.5rem 0;
+}
+
+.message.user {
+  text-align: right;
+  color: #2d6cdf;
+}
+
+.message.asphaultai {
+  text-align: left;
+  color: #444;
+}
+
+form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: #2d6cdf;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
