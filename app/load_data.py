@@ -25,7 +25,7 @@ def load_csv_to_db():
 
     with get_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM pit_stops")  # Optional: clear old data
+        cursor.execute("DELETE FROM pit_stops")
         print(f"Inserting {len(rows)} rows...")
         print("Sample row:", rows[0])
 
@@ -62,7 +62,7 @@ def load_csv_to_db():
         conn.commit()
         print(f"Loaded {len(rows)} rows into pit_stops.db.")
         if not rows:
-            print("⚠️ No rows found in CSV. Check the file path or format.")
+            print("⚠️No rows found in CSV. Check the file path or format.")
 
 if __name__ == "__main__":
     load_csv_to_db()
