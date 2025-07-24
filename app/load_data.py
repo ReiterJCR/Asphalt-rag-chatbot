@@ -1,7 +1,7 @@
 import csv
 import os
 from .db import get_connection, init_db
-
+import time
 CSV_PATH = os.path.join(os.path.dirname(__file__), "../data/pit_stops.csv")
 
 def safe_float(val):
@@ -19,12 +19,14 @@ def safe_int(val):
 def load_csv_to_db():
     init_db()
 
+
     with open(CSV_PATH, newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         rows = list(reader)
 
     with get_connection() as conn:
         cursor = conn.cursor()
+        cursor.execute("REPLACE INTO metadata (key, value) VALUES (?, ?)", ("last_updated", str(int(time.time()))))
         cursor.execute("DELETE FROM pit_stops")
         print(f"Inserting {len(rows)} rows...")
         print("Sample row:", rows[0])

@@ -30,4 +30,12 @@ def init_db():
                 PitStopType TEXT
             );
         """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS metadata (
+                key TEXT PRIMARY KEY,
+                value TEXT
+            )
+        """)
         conn.commit()
+        
+

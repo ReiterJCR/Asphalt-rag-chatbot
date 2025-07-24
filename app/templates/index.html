@@ -6,15 +6,22 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="header">
-        <a href="/info">Info</a>
-    </div>
     <h1>Asphalt Analytics</h1>
-
+    <div id="refresh-container" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <span id="last-updated">Last updated: ...</span>
+        <button onclick="refreshDataset()" style="padding: 0.5rem 1rem; background: #2d6cdf; color: white; border: none; border-radius: 6px; cursor: pointer;">Refresh Dataset</button>
+    </div>
     <div id="chat-box">
     {% for message in messages %}
         <div class="message {{ message.role }}">
-        <strong>{{ message.role.capitalize() }}:</strong> {{ message.text }}
+        <strong>
+            {% if message.role == "asphaltai" %}
+            AsphaltAI:
+            {% else %}
+            {{ message.role.capitalize() }}:
+            {% endif %}
+        </strong>
+        {{ message.text }}
         </div>
     {% endfor %}
     </div>
@@ -93,4 +100,24 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   });
+  async function refreshDataset() {
+  const res = await fetch("/refresh", { method: "POST" });
+  const data = await res.json();
+
+  if (data.success) {
+    alert("✅ Dataset refreshed.");
+    updateLastUpdated();
+  } else {
+    alert("⚠️ Refresh failed: " + data.error);
+  }
+}
+
+async function updateLastUpdated() {
+  const res = await fetch("/last_updated");
+  const data = await res.json();
+  document.getElementById("last-updated").innerText = "Last updated: " + data.last_updated;
+}
+
+// Load timestamp when page loads
+updateLastUpdated();
 </script>
