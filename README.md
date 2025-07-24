@@ -39,8 +39,9 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 ```
+### 3. Put CSV of data in directory(Not using API for data retrieval)
 
-### 3.  Run the app!
+### 4.  Run the app!
 
 ```bash
 python run.py
