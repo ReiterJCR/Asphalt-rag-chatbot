@@ -47,7 +47,7 @@ pip install -r requirements.txt
 python run.py
 ```
 
-### Make sure to refresh the database if it is your first time running the app, or you have new data!
+### Make sure to refresh the database if it is your first time running the app or if you have new data!
 
 
 
