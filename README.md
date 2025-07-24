@@ -39,7 +39,7 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 ```
-### 3. Put your .csv in asphalt-rag directory
+### 3. Create asphalt-rag/data and drop your .csv in 
 
 ### 4.  Run the app!
 
