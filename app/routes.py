@@ -13,15 +13,19 @@ def ask():
     user_question = request.json.get("question")
     chat_history.append({"role": "user", "text": user_question})
 
-    sql = ask_gpt_for_sql(user_question)
-    data = run_sql_query(sql)
+    sql = ask_gpt_for_sql(user_question, chat_history[-10:])
+    print(sql)
+    if sql != "no query needed":
+        data = run_sql_query(sql)
+    else:
+        data = "No results found."
     
-    if data.startswith("⚠️") or data == "No results found.":
+    if data == "No results found.":
         response = data
     else:
-        response = generate_answer_from_data(user_question, data)
+        response = generate_answer_from_data(user_question, sql, data, chat_history[-10:])
 
-    chat_history.append({"role": "asphalt ai", "text": response})
+    chat_history.append({"role": "asphaltai", "text": response})
     return jsonify({"response": response})
 
 @main.route("/refresh", methods=["POST"])
@@ -49,4 +53,9 @@ def last_updated():
     else:
         return jsonify({"last_updated": "Never"})
 
+@main.route("/clear", methods=["POST"])
+def clear_chat():
+    global chat_history
+    chat_history = []
+    return jsonify({"success": True})
 

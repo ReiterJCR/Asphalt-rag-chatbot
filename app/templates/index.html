@@ -7,9 +7,13 @@
 </head>
 <body>
     <h1>Asphalt Analytics</h1>
-    <div id="refresh-container" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <span id="last-updated">Last updated: ...</span>
-        <button onclick="refreshDataset()" style="padding: 0.5rem 1rem; background: #2d6cdf; color: white; border: none; border-radius: 6px; cursor: pointer;">Refresh Dataset</button>
+    <div id="chat-controls" style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+        <div id="last-updated">Last updated: ...</div>
+        
+        <div>
+            <button onclick="refreshDataset()" style="margin-right: 0.5rem;">Refresh Dataset</button>
+            <button onclick="clearChat()">Clear Chat</button>
+        </div>
     </div>
     <div id="chat-box">
     {% for message in messages %}
@@ -30,7 +34,8 @@
     <input type="text" id="message-input" placeholder="Ask a question..." required>
     <button type="submit" id="send-btn" >Send</button>
     </form>
-</body>
+</body>    
+<p>10 most recent messages will be used in context.</p>
 </html>
 
 <script>
@@ -59,11 +64,11 @@
 
     // Create bot placeholder message
     const botMsg = document.createElement("div");
-    botMsg.className = "message bot";
+    botMsg.className = "message asphaltai";
     const typingSpan = document.createElement("span");
     typingSpan.id = "typing";
     typingSpan.textContent = "Thinking";
-    botMsg.innerHTML = `<strong>Bot:</strong> `;
+    botMsg.innerHTML = `<strong>AsphaltAI:</strong> `;
     botMsg.appendChild(typingSpan);
     chatBox.appendChild(botMsg);
 
@@ -120,4 +125,18 @@ async function updateLastUpdated() {
 
 // Load timestamp when page loads
 updateLastUpdated();
+
+async function clearChat() {
+  const confirmed = confirm("Clear chat history? This will clear memory of previous messages.");
+  if (!confirmed) return;
+
+  const res = await fetch("/clear", { method: "POST" });
+  const data = await res.json();
+
+  if (data.success) {
+    document.getElementById("chat-box").innerHTML = "";
+  } else {
+    alert("⚠️ Failed to clear chat.");
+  }
+}
 </script>

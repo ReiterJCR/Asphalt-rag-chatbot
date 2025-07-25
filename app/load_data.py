@@ -17,9 +17,9 @@ def safe_int(val):
         return None
 
 def load_csv_to_db():
+    """Load data from CSV file into SQLite database."""
     init_db()
-
-
+    
     with open(CSV_PATH, newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         rows = list(reader)
