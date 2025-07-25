@@ -50,6 +50,6 @@ python run.py
 ### Make sure to refresh the database if it is your first time running the app or if you have new data!
 
 
-
+In the dataset used here, there are no entries for team 18 in 2023.
 <img width="914" height="743" alt="image" src="https://github.com/user-attachments/assets/fe9b8f19-5f3d-4929-a080-5aeee9e12e1a" />
 
