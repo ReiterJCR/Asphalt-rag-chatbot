@@ -14,10 +14,8 @@ def ask():
     chat_history.append({"role": "user", "text": user_question})
 
     sql = ask_gpt_for_sql(user_question, chat_history[-10:])
-    print(sql)
     if sql != "no query needed":
         data = run_sql_query(sql)
-        print(data)
     else:
         data = "No results found."
     

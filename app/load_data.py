@@ -29,7 +29,6 @@ def load_csv_to_db():
         cursor.execute("REPLACE INTO metadata (key, value) VALUES (?, ?)", ("last_updated", str(int(time.time()))))
         cursor.execute("DELETE FROM pit_stops")
         print(f"Inserting {len(rows)} rows...")
-        print("Sample row:", rows[0])
 
         for row in rows:
             cursor.execute("""
