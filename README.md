@@ -51,5 +51,5 @@ python run.py
 
 
 
-<img width="994" height="712" alt="image" src="https://github.com/user-attachments/assets/484a1222-e3d3-408f-b589-c1f39a2e4f23" />
+<img width="914" height="743" alt="image" src="https://github.com/user-attachments/assets/fe9b8f19-5f3d-4929-a080-5aeee9e12e1a" />
 
