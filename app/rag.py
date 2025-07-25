@@ -63,7 +63,7 @@ def ask_gpt_for_sql(user_question, context_window=None):
     response = openai.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "developer", "content": instructions}, {"role": "user", "content": prompt}],
-        temperature=0.1
+        temperature=0
     )
 
     return response.choices[0].message.content.strip()

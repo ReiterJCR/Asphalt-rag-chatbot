@@ -17,6 +17,7 @@ def ask():
     print(sql)
     if sql != "no query needed":
         data = run_sql_query(sql)
+        print(data)
     else:
         data = "No results found."
     
@@ -44,8 +45,11 @@ def last_updated():
 
     with get_connection() as conn:
         cur = conn.cursor()
-        cur.execute("SELECT value FROM metadata WHERE key = 'last_updated'")
-        row = cur.fetchone()
+        try:
+            cur.execute("SELECT value FROM metadata WHERE key = 'last_updated'")
+            row = cur.fetchone()
+        except Exception as e:
+            return jsonify({"error": str(e)})
 
     if row:
         timestamp = datetime.datetime.fromtimestamp(int(row[0]))
